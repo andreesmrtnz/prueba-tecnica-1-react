@@ -1,37 +1,15 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useCatFact } from './hooks/useCatFact.js'
+import { useCatImage } from './hooks/useCatImage.js'
 import './App.css'
 
 function App() {
-
-  const API_URL_FACTS = 'https://catfact.ninja/fact'
-  const CAT_PREFIX_IMAGE_URL = 'https://cataas.com'
-  const [fact, setFact] = useState()
-  const [imageUrl, setImageUrl] = useState()
-
+  
+  
+  const { fact } = useCatFact()
+  const { imageUrl } = useCatImage({ fact })
 
 
-  useEffect(() => {
-    fetch(API_URL_FACTS)
-      .then(res => res.json())
-      .then(data => {
-        setFact(data.fact)
-      })
-  }, [])
 
-
-  useEffect(() => {
-    if (!fact) {
-      return
-    }
-    const threeFirstWords = fact.split(' ', 3).join(' ')
-    fetch(`https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`)
-      .then(res => res.json())
-      .then(response => {
-        const url = response.url
-        setImageUrl( url)
-      })
-  }, [fact])
 
   return (
     <>
